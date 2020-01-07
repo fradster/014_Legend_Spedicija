@@ -1,0 +1,392 @@
+﻿<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Špedicija Legend" />
+	<meta name="keywords" content="Špedicija Legend, legendsped, Šabac, Pop Lukina, Vukanić, Čolaković, Radinović" />
+
+	<title>Legend Sped</title>
+	<link rel="shortcut icon" type="image/ico" href="img/favicon.png" />
+
+	<!-- Script Bundles reference -->
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/Plugins")
+	@Scripts.Render("~/bundles/modernizr")
+	<!-- for some reason, main.js doesnt work properly when bundled, (menu not showing when screen is resized for mobile).-->
+	@*@Scripts.Render("~/bundles/Main1")*@
+	<script src="~/Scripts/ext.Plugins/main.js"></script>
+	<!--  render page specific scripts  -->
+	@RenderSection("PageScriptsRef", required: false)
+	
+	<!-- Style Bundles -->
+	@Styles.Render("~/Content/css")
+	
+	<!-- Page specific styles are rendered here.-->
+	@RenderSection("Styles", required: false)
+</head>
+
+<body class="home-two">
+
+	<!-- PRELOADER -->
+	<div class="preeloader">
+		<div class="preloader-spinner"></div>
+	</div>
+
+	<!-- SCROLL TO TOP -->
+	<a href="#home" class="scrolltotop"><i class="fa fa-long-arrow-up"></i></a>
+
+	<!-- START TOP AREA -->
+	<header class="top-area" id="home">
+		<div class="top-area-bg" data-stellar-background-ratio="0.6"></div>
+
+		<div class="header-top-area">
+			<!-- MAINMENU region -->
+			<div class="mainmenu-area" id="mainmenu-area">
+				<div class="mainmenu-area-bg"></div>
+				<!-- navigation bar -->
+				<nav class="navbar"><!-- added  fixed-top navbar-expand-sm for navbar 4.x-->
+					<!--  from the left edge of the logo to the right edge of change language icon  -->
+					<div class="container">	
+						<!--  logo area  -->
+						<div class="navbar-header">			
+							<table>
+								<tr>
+									<!--  logo image, home link  -->
+									<td>
+										<a href="#home" class= "navbar-brand" id="CompanyLogo"><img src="~/Content/images/LogoLegendSped.png" alt="logo"></a>
+									</td>
+									<td>
+									<!-- user icon and name -->
+									<div id="UserIconCont">
+										<i class="fa fa-user"></i>
+										<span id="UserNameTag">@(Session["UserName"])</span>
+									</div></td>
+								</tr>
+							</table>
+						</div>
+
+						<!-- search and language area  pull-right -->
+						<div class="search-and-language-bar pull-right">
+							<ul>
+								<!-- Select language -->
+								<li class="select-language">
+									<select name="#" id="#">
+										<option selected value="Eng">ENG</option>
+										<option value="Srb">SRB</option>
+									</select>
+								</li>
+							</ul>
+						</div> <!-- end search-and-language-bar -->
+
+						<!-- The Main Menu -->
+						<div id="main-nav" class="stellarnav">
+							<ul id="nav" class="nav navbar-nav">
+								<!-- added mr-auto for Bootstrap 4.x-->
+								<li>
+									<!-- added  class="nav-item" for Bootstrap 4.x-->
+									<a href="index.html"><!-- added class="nav-link" for Bootstrap 4.x-->home</a>
+								</li>
+								<li>
+									<a href="service.html">services</a><!--  class="nav-link"-->
+								</li>
+								<li>
+									<a href="catalog.html">catalog</a>
+								</li>
+								<li>
+									<a href="about.html">about</a>
+								</li>
+								<li>
+									<a href="contact.html">Contact</a>
+								</li>
+							</ul>
+						</div> <!-- The Main Menu -->				
+					</div> <!-- container -->
+				</nav> <!-- navbar -->
+			</div><!-- MAINMENU region -->
+		</div> <!-- header-top-area  -->
+
+		<!-- specific page content (in header) will land here -->
+		<div class="container body-content">
+			@RenderBody( )
+			<hr class="HorLine"/>
+		</div>
+
+		<!-- User login form -->
+		<div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+				 aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<!-- header -->
+					<div class="modal-header text-center">
+						<div class="container">
+							<div class="row">
+								<h4 class="modal-title w-100 font-weight-bold">Sign In</h4>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="row">
+								<strong class="alert alert-warning" id="MessageText"></strong>
+							</div>
+						</div>
+					</div>
+					<!-- body -->
+					<div class="modal-body mx-3">
+						<div class="md-form mb-5">
+							<i class="fa fa-user-circle-o prefix grey-text" style="font-size: 1.8em"></i>
+							<input type="text" id="orangeForm-name" class="form-control validate" placeholder="Enter User name" required>
+						</div>
+						<div class="md-form mb-5" style="margin-top: 20px ">
+							<i class="fa fa-lock prefix grey-text" style="font-size: 1.8em"></i>
+							<input type="password" id="orangeForm-pass" class="form-control validate" placeholder="Enter Password" required>
+						</div>
+					</div>
+					<div class="modal-footer d-flex justify-content-center">
+						<div class="options text-left text-md-left mt-1">
+							<p>Forgot <a href="#" class="blue-text" onclick="ForgotPassword()">Password?</a></p>
+						</div>
+						<button id="Login_button" class="btn btn-deep-orange">Sign in</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- edit profile form -->
+		<div class="modal fade" id="ProfileEditForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<!-- header -->
+					<div class="modal-header text-center">
+						<i class="fa fa-user-circle-o prefix grey-text" style="font-size: 1.8em">@(" " + Session["UserName"])</i>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<!-- body -->
+					<div class="modal-footer d-flex justify-content-center">
+						<div class="options text-left text-md-left mt-1">
+							<p>@Html.ActionLink("Edit profile", "EditProfile", "Home", null, new { @class = "blue-text" })</p>
+							@{ //if user is admin
+								if (Convert.ToInt32(Session["UserRole"]) == 1) {
+									<p>@Html.ActionLink("Edit users list", "UserList", "Home", new { FirstUserIndex= 1, NoOfUsers = 10}, new {@class ="blue-text"})</p>
+									<p>@Html.ActionLink("Edit SMTP server login credentials", "SMTPParams", "Account", null, new { @class = "blue-text" })</p>
+								}
+							}
+							<p>@Html.ActionLink("Log out", "SignOut", "Account", null, new { @class = "blue-text" })</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- specific page content will (not) land here  -->
+
+	<!--  footer region  -->
+	<div class="footer-area dark-bg">
+		<div class="footer-area-bg"></div>
+		<!--  lower part of footer -->
+		<div class="footer-bottom-area wow fadeIn">
+			<div class="container">
+				<!-- row with about US list nad others  -->
+				<div class="row">
+					<!-- about us list  -->
+					<div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
+						<div class="single-footer-widget footer-about">
+							<h3>About Us</h3>
+							<p>About contacting the company</p>
+							<ul>
+								<li><i class="fa fa-phone"></i> <a href="callto:+3816411854378">+3816411854378</a></li>
+								<li><i class="fa fa-map-marker"></i> <a href="mailto:mirko@gmail.com">mirko@gmail.com</a></li>
+								<li><i class="fa fa-phone"></i> Šabac, 1704, Serbia.</li>
+							</ul>
+						</div>
+					</div>
+					<!-- pictures mozaik and services links -->
+					<div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
+						<div class="single-footer-widget instafeed-widget">
+							<h3>Services</h3>
+							<ul>
+								<li><a href="#"><img src="~/Content/images/instafeed/1.jpg" alt=""></a></li>
+								<li><a href="#"><img src="~/Content/images/instafeed/2.jpg" alt=""></a></li>
+								<li><a href="#"><img src="~/Content/images/instafeed/3.jpg" alt=""></a></li>
+								<li><a href="#"><img src="~/Content/images/instafeed/4.jpg" alt=""></a></li>
+								<li><a href="#"><img src="~/Content/images/instafeed/5.jpg" alt=""></a></li>
+								<li><a href="#"><img src="~/Content/images/instafeed/6.jpg" alt=""></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- footer border, dashed line -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="footer-border"> </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- copyrigth area and social links   -->
+		<div class="footer-copyright-area">
+			<div class="container">
+				<div class="row">
+					<!--  copyright note  -->
+					<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+						<div class="footer-copyright wow fadeIn">
+							<p>
+								Copyright &copy;
+								<script>document.write(new Date().getFullYear());</script> Made by <a href="#" target="_blank">Home</a>
+							</p>
+						</div>
+					</div>
+					<!--  social media links  -->
+					<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+						<div class="footer-social-bookmark text-right wow fadeIn">
+							<ul class="social-bookmark">
+								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--  render bundled scripts -->
+	@RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+<script type="text/javascript">
+	$(function () {//document ready
+		//-----------------------------------
+		// get login form  and alert message elements
+		//--------------------------------------
+		var ModalLogin = document.getElementById('modalLoginForm');
+		var AlertTextBox = document.getElementById('MessageText');
+
+		//------------------------------------
+		//	when user icon is clicked, show login or menu modal with edit profile, user list,...
+		//-------------------------------------
+		jQuery('#UserIconCont').on('click', function () {
+
+			//check if anyone is logged
+			if (IsAnyoneLogged()) {
+				//if so, show the menu modal with edit profile, user list,...
+				@*jQuery('#UsrNameLbl').text('@Session["UserName"]');*@
+				jQuery('#ProfileEditForm').modal();
+			}
+			else {
+				//otherwise, show login dialog
+				AlertTextBox.style.display = "none";//hide alert box
+				$("#modalRegisterForm").modal();
+			}
+		});
+
+		//---------------------------
+		//	Login button is pressed
+		//----------------------------
+		$('#Login_button').on('click', function () {
+			var loginNameBox = $("#orangeForm-name").val().trim();
+			var loginPassBox = $("#orangeForm-pass").val().trim();
+
+			//check if some of the fields are empty
+			if (!loginNameBox) {
+				AlertTextBox.textContent = "User Name is required";
+				AlertTextBox.style.display = "block";
+				return;
+			}
+			if (!loginPassBox) {
+				AlertTextBox.textContent = "Password is required";
+				AlertTextBox.style.display = "block";
+				return;
+			}
+
+			var ULV = {
+				LoginName: loginNameBox,
+				Password: loginPassBox
+			};
+
+			jQuery.ajax({
+				type: "POST",
+				dataType: 'json',
+				url: "@(Url.Action("LogIn", "Account"))",
+				data: ULV,
+				success: function (data) {
+					if (data.success) {
+						//if login was succesful, reload the page, so that use rname would appear in header
+						window.location.reload();
+					}
+					else {
+						AlertTextBox.textContent = "Failed login. " + data.error;
+						AlertTextBox.style.display = "block";
+					}
+				},
+				error: function (xhr, TextStatus, thrownError) {
+					//if error, throw the alert with diagnostic message and reload the page with login dialog open and diagnostic message inside
+					AlertTextBox.textContent = "Failed login. " + xhr.status + " " + thrownError;
+					AlertTextBox.style.display = "block";
+				}
+			});
+		});
+	})
+
+	//-----------------------------------------
+	//check if user is already logged
+	//-----------------------------------------
+	function IsAnyoneLogged() {
+		var UserName = '@Session["UserName"]';
+		return (!(UserName === null || UserName === ""));
+	}
+
+	//------------------------------------------
+	//--Forgot Password is clicked
+	//-----------------------------------------
+	function ForgotPassword() {
+		//check User Name field
+		var AlertTextBox = document.getElementById('MessageText');
+		var loginNameBox = $("#orangeForm-name").val().trim();
+		if (!loginNameBox) {
+			AlertTextBox.textContent = "Enter User Name or Email address in User Name input box";
+			AlertTextBox.style.display = "block";
+			return;
+		}
+
+		AlertTextBox.textContent ="";
+		AlertTextBox.style.display = "none"
+		var answer = confirm("This will generate new password for your account.\n Continue?");//confirm dialog
+		if (answer) {
+			jQuery.ajax({
+				type: "POST",
+				dataType: 'json',
+				url: "@(Url.Action("ForgotPassword", "Home"))",
+				data: {InputField: loginNameBox},
+
+				success: function (obj1) {
+					AlertTextBox.textContent = obj1.message;
+					AlertTextBox.style.display = "block";
+				},
+				error: function (xhr, TextStatus, thrownError) {
+					//if error, throw the alert with diagnostic message and reload the page with login dialog open and diagnostic message inside
+					AlertTextBox.textContent = xhr.status + " " + thrownError;
+					AlertTextBox.style.display = "block";
+				}
+			});
+		}
+	}
+
+	//---------------------------------------------------------
+	//--check if e-mail in input field is valid
+	//-- has a text of an input field as parametear
+	function CheckMailFormat(InputFieldTxt) {
+		//regex for validating mail
+		var mailFormat= @(new HtmlString("/^(([^<>()\\[\\]\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\.,;:\\s@\"]+)*)|(\".+\"))@(([^<>()[\\]\\.,;:\\s@\"]+\\.)+[^<>()[\\]\\.,;:\\s@\"]{2,})$/i"));
+		return (InputFieldTxt.match(mailFormat));
+	}
+</script>

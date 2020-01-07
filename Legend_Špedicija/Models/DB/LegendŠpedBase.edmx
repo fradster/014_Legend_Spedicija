@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DemoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin SMTP parameters">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserEmail" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="host" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="RowCreatedSYSUserID" Type="int" Nullable="false" />
+          <Property Name="RowCreatedDateTime" Type="datetime" />
+          <Property Name="RowModifiedSYSUserID" Type="int" Nullable="false" />
+          <Property Name="RowModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LOOKUPRole">
+          <Key>
+            <PropertyRef Name="LOOKUPRoleID" />
+          </Key>
+          <Property Name="LOOKUPRoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="25" />
+          <Property Name="RoleDescription" Type="varchar" MaxLength="100" />
+          <Property Name="RowCreatedSYSUserID" Type="int" Nullable="false" />
+          <Property Name="RowCreatedDateTime" Type="datetime" />
+          <Property Name="RowModifiedSYSUserID" Type="int" Nullable="false" />
+          <Property Name="RowModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SYSUserID" Type="int" />
+          <Property Name="MessageText" Type="ntext" />
+          <Property Name="DatePosted" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYSUser">
+          <Key>
+            <PropertyRef Name="SYSUserID" />
+          </Key>
+          <Property Name="SYSUserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordEncryptedText" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RowCreatedSYSUserID" Type="int" Nullable="false" />
+          <Property Name="RowCreatedDateTime" Type="datetime" />
+          <Property Name="RowModifiedSYSUserID" Type="int" Nullable="false" />
+          <Property Name="RowModifiedDateTime" Type="datetime" />
+          <Property Name="Salt" Type="binary" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="SYSUserProfile">
+          <Key>
+            <PropertyRef Name="SYSUserProfileID" />
+          </Key>
+          <Property Name="SYSUserProfileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SYSUserID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="RowCreatedSYSUserID" Type="int" Nullable="false" />
+          <Property Name="RowCreatedDateTime" Type="datetime" />
+          <Property Name="RowModifiedSYSUserID" Type="int" Nullable="false" />
+          <Property Name="RowModifiedDateTime" Type="datetime" />
+          <Property Name="email" Type="nvarchar" MaxLength="288" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SYSUserRole">
+          <Key>
+            <PropertyRef Name="SYSUserRoleID" />
+          </Key>
+          <Property Name="SYSUserRoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SYSUserID" Type="int" Nullable="false" />
+          <Property Name="LOOKUPRoleID" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="RowCreatedSYSUserID" Type="int" Nullable="false" />
+          <Property Name="RowCreatedDateTime" Type="datetime" />
+          <Property Name="RowModifiedSYSUserID" Type="int" Nullable="false" />
+          <Property Name="RowModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="USER Preferences">
+          <Key>
+            <PropertyRef Name="PreferencesId" />
+          </Key>
+          <Property Name="PreferencesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SYSUserID" Type="int" Nullable="false" />
+          <Property Name="NoOfUsersDisplayed" Type="int" />
+        </EntityType>
+        <Association Name="FK__SYSUserPr__SYSUs__48CFD27E">
+          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="1" />
+          <End Role="SYSUserProfile" Type="Self.SYSUserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSUser">
+              <PropertyRef Name="SYSUserID" />
+            </Principal>
+            <Dependent Role="SYSUserProfile">
+              <PropertyRef Name="SYSUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SYSUserRo__LOOKU__49C3F6B7">
+          <End Role="LOOKUPRole" Type="Self.LOOKUPRole" Multiplicity="1" />
+          <End Role="SYSUserRole" Type="Self.SYSUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LOOKUPRole">
+              <PropertyRef Name="LOOKUPRoleID" />
+            </Principal>
+            <Dependent Role="SYSUserRole">
+              <PropertyRef Name="LOOKUPRoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SYSUserRo__SYSUs__4AB81AF0">
+          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="1" />
+          <End Role="SYSUserRole" Type="Self.SYSUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSUser">
+              <PropertyRef Name="SYSUserID" />
+            </Principal>
+            <Dependent Role="SYSUserRole">
+              <PropertyRef Name="SYSUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USER Pref__SYSUs__03F0984C">
+          <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="1" />
+          <End Role="USER Preferences" Type="Self.USER Preferences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSUser">
+              <PropertyRef Name="SYSUserID" />
+            </Principal>
+            <Dependent Role="USER Preferences">
+              <PropertyRef Name="SYSUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DemoDBModelStoreContainer">
+          <EntitySet Name="Admin SMTP parameters" EntityType="Self.Admin SMTP parameters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LOOKUPRole" EntityType="Self.LOOKUPRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYSUser" EntityType="Self.SYSUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYSUserProfile" EntityType="Self.SYSUserProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYSUserRole" EntityType="Self.SYSUserRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USER Preferences" EntityType="Self.USER Preferences" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__SYSUserPr__SYSUs__48CFD27E" Association="Self.FK__SYSUserPr__SYSUs__48CFD27E">
+            <End Role="SYSUser" EntitySet="SYSUser" />
+            <End Role="SYSUserProfile" EntitySet="SYSUserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SYSUserRo__LOOKU__49C3F6B7" Association="Self.FK__SYSUserRo__LOOKU__49C3F6B7">
+            <End Role="LOOKUPRole" EntitySet="LOOKUPRole" />
+            <End Role="SYSUserRole" EntitySet="SYSUserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SYSUserRo__SYSUs__4AB81AF0" Association="Self.FK__SYSUserRo__SYSUs__4AB81AF0">
+            <End Role="SYSUser" EntitySet="SYSUser" />
+            <End Role="SYSUserRole" EntitySet="SYSUserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USER Pref__SYSUs__03F0984C" Association="Self.FK__USER Pref__SYSUs__03F0984C">
+            <End Role="SYSUser" EntitySet="SYSUser" />
+            <End Role="USER Preferences" EntitySet="USER Preferences" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DemoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="LOOKUPRole">
+          <Key>
+            <PropertyRef Name="LOOKUPRoleID" />
+          </Key>
+          <Property Name="LOOKUPRoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="RoleDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RowCreatedSYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="RowCreatedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="RowModifiedSYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="RowModifiedDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SYSUserRoles" Relationship="Self.FK__SYSUserRo__LOOKU__48CFD27E" FromRole="LOOKUPRole" ToRole="SYSUserRole" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SYSUserID" Type="Int32" />
+          <Property Name="MessageText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DatePosted" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SYSUserProfile">
+          <Key>
+            <PropertyRef Name="SYSUserProfileID" />
+          </Key>
+          <Property Name="SYSUserProfileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RowCreatedSYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="RowCreatedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="RowModifiedSYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="RowModifiedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="email" Type="String" MaxLength="288" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="SYSUser" Relationship="DemoDBModel.FK__SYSUserPr__SYSUs__48CFD27E" FromRole="SYSUserProfile" ToRole="SYSUser" />
+        </EntityType>
+        <EntityType Name="SYSUserRole">
+          <Key>
+            <PropertyRef Name="SYSUserRoleID" />
+          </Key>
+          <Property Name="SYSUserRoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="LOOKUPRoleID" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="RowCreatedSYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="RowCreatedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="RowModifiedSYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="RowModifiedDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="LOOKUPRole" Relationship="Self.FK__SYSUserRo__LOOKU__48CFD27E" FromRole="SYSUserRole" ToRole="LOOKUPRole" />
+          <NavigationProperty Name="SYSUser" Relationship="DemoDBModel.FK__SYSUserRo__SYSUs__4AB81AF0" FromRole="SYSUserRole" ToRole="SYSUser" />
+        </EntityType>
+        <Association Name="FK__SYSUserRo__LOOKU__48CFD27E">
+          <End Role="LOOKUPRole" Type="Self.LOOKUPRole" Multiplicity="1" />
+          <End Role="SYSUserRole" Type="Self.SYSUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LOOKUPRole">
+              <PropertyRef Name="LOOKUPRoleID" />
+            </Principal>
+            <Dependent Role="SYSUserRole">
+              <PropertyRef Name="LOOKUPRoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DemoDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LOOKUPRoles" EntityType="Self.LOOKUPRole" />
+          <EntitySet Name="Messages" EntityType="Self.Message" />
+          <EntitySet Name="SYSUserProfiles" EntityType="Self.SYSUserProfile" />
+          <EntitySet Name="SYSUserRoles" EntityType="Self.SYSUserRole" />
+          <AssociationSet Name="FK__SYSUserRo__LOOKU__48CFD27E" Association="Self.FK__SYSUserRo__LOOKU__48CFD27E">
+            <End Role="LOOKUPRole" EntitySet="LOOKUPRoles" />
+            <End Role="SYSUserRole" EntitySet="SYSUserRoles" />
+          </AssociationSet>
+          <EntitySet Name="SYSUsers" EntityType="DemoDBModel.SYSUser" />
+          <AssociationSet Name="FK__SYSUserPr__SYSUs__48CFD27E" Association="DemoDBModel.FK__SYSUserPr__SYSUs__48CFD27E">
+            <End Role="SYSUser" EntitySet="SYSUsers" />
+            <End Role="SYSUserProfile" EntitySet="SYSUserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SYSUserRo__SYSUs__4AB81AF0" Association="DemoDBModel.FK__SYSUserRo__SYSUs__4AB81AF0">
+            <End Role="SYSUser" EntitySet="SYSUsers" />
+            <End Role="SYSUserRole" EntitySet="SYSUserRoles" />
+          </AssociationSet>
+          <EntitySet Name="Admin_SMTP_parameters" EntityType="DemoDBModel.Admin_SMTP_parameter" />
+          <EntitySet Name="USER_Preferences" EntityType="DemoDBModel.USER_Preference" />
+          <AssociationSet Name="FK__USER_Pref__SYSUs__03F0984C" Association="DemoDBModel.FK__USER_Pref__SYSUs__03F0984C">
+            <End Role="SYSUser" EntitySet="SYSUsers" />
+            <End Role="USER_Preference" EntitySet="USER_Preferences" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="SYSUser">
+          <Key>
+            <PropertyRef Name="SYSUserID" />
+          </Key>
+          <Property Name="SYSUserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordEncryptedText" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RowCreatedSYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="RowCreatedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="RowModifiedSYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="RowModifiedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="Salt" Type="Binary" MaxLength="32" FixedLength="true" />
+          <NavigationProperty Name="SYSUserProfiles" Relationship="DemoDBModel.FK__SYSUserPr__SYSUs__48CFD27E" FromRole="SYSUser" ToRole="SYSUserProfile" />
+          <NavigationProperty Name="SYSUserRoles" Relationship="DemoDBModel.FK__SYSUserRo__SYSUs__4AB81AF0" FromRole="SYSUser" ToRole="SYSUserRole" />
+          <NavigationProperty Name="USER_Preferences" Relationship="DemoDBModel.FK__USER_Pref__SYSUs__03F0984C" FromRole="SYSUser" ToRole="USER_Preference" />
+        </EntityType>
+        <Association Name="FK__SYSUserPr__SYSUs__48CFD27E">
+          <End Type="DemoDBModel.SYSUser" Role="SYSUser" Multiplicity="1" />
+          <End Type="DemoDBModel.SYSUserProfile" Role="SYSUserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSUser">
+              <PropertyRef Name="SYSUserID" />
+            </Principal>
+            <Dependent Role="SYSUserProfile">
+              <PropertyRef Name="SYSUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SYSUserRo__SYSUs__4AB81AF0">
+          <End Type="DemoDBModel.SYSUser" Role="SYSUser" Multiplicity="1" />
+          <End Type="DemoDBModel.SYSUserRole" Role="SYSUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSUser">
+              <PropertyRef Name="SYSUserID" />
+            </Principal>
+            <Dependent Role="SYSUserRole">
+              <PropertyRef Name="SYSUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Admin_SMTP_parameter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserEmail" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="host" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="RowCreatedSYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="RowCreatedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="RowModifiedSYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="RowModifiedDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="USER_Preference">
+          <Key>
+            <PropertyRef Name="PreferencesId" />
+          </Key>
+          <Property Name="PreferencesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SYSUserID" Type="Int32" Nullable="false" />
+          <Property Name="NoOfUsersDisplayed" Type="Int32" />
+          <NavigationProperty Name="SYSUser" Relationship="DemoDBModel.FK__USER_Pref__SYSUs__03F0984C" FromRole="USER_Preference" ToRole="SYSUser" />
+        </EntityType>
+        <Association Name="FK__USER_Pref__SYSUs__03F0984C">
+          <End Type="DemoDBModel.SYSUser" Role="SYSUser" Multiplicity="1" />
+          <End Type="DemoDBModel.USER_Preference" Role="USER_Preference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYSUser">
+              <PropertyRef Name="SYSUserID" />
+            </Principal>
+            <Dependent Role="USER_Preference">
+              <PropertyRef Name="SYSUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DemoDBModelStoreContainer" CdmEntityContainer="DemoDBEntities">
+          <EntitySetMapping Name="LOOKUPRoles">
+            <EntityTypeMapping TypeName="DemoDBModel.LOOKUPRole">
+              <MappingFragment StoreEntitySet="LOOKUPRole">
+                <ScalarProperty Name="LOOKUPRoleID" ColumnName="LOOKUPRoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+                <ScalarProperty Name="RowCreatedSYSUserID" ColumnName="RowCreatedSYSUserID" />
+                <ScalarProperty Name="RowCreatedDateTime" ColumnName="RowCreatedDateTime" />
+                <ScalarProperty Name="RowModifiedSYSUserID" ColumnName="RowModifiedSYSUserID" />
+                <ScalarProperty Name="RowModifiedDateTime" ColumnName="RowModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="DemoDBModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="MessageID" ColumnName="MessageID" />
+                <ScalarProperty Name="SYSUserID" ColumnName="SYSUserID" />
+                <ScalarProperty Name="MessageText" ColumnName="MessageText" />
+                <ScalarProperty Name="DatePosted" ColumnName="DatePosted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYSUserProfiles">
+            <EntityTypeMapping TypeName="DemoDBModel.SYSUserProfile">
+              <MappingFragment StoreEntitySet="SYSUserProfile">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="SYSUserProfileID" ColumnName="SYSUserProfileID" />
+                <ScalarProperty Name="SYSUserID" ColumnName="SYSUserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="RowCreatedSYSUserID" ColumnName="RowCreatedSYSUserID" />
+                <ScalarProperty Name="RowCreatedDateTime" ColumnName="RowCreatedDateTime" />
+                <ScalarProperty Name="RowModifiedSYSUserID" ColumnName="RowModifiedSYSUserID" />
+                <ScalarProperty Name="RowModifiedDateTime" ColumnName="RowModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYSUserRoles">
+            <EntityTypeMapping TypeName="DemoDBModel.SYSUserRole">
+              <MappingFragment StoreEntitySet="SYSUserRole">
+                <ScalarProperty Name="SYSUserRoleID" ColumnName="SYSUserRoleID" />
+                <ScalarProperty Name="SYSUserID" ColumnName="SYSUserID" />
+                <ScalarProperty Name="LOOKUPRoleID" ColumnName="LOOKUPRoleID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="RowCreatedSYSUserID" ColumnName="RowCreatedSYSUserID" />
+                <ScalarProperty Name="RowCreatedDateTime" ColumnName="RowCreatedDateTime" />
+                <ScalarProperty Name="RowModifiedSYSUserID" ColumnName="RowModifiedSYSUserID" />
+                <ScalarProperty Name="RowModifiedDateTime" ColumnName="RowModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYSUsers">
+            <EntityTypeMapping TypeName="DemoDBModel.SYSUser">
+              <MappingFragment StoreEntitySet="SYSUser">
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="RowModifiedDateTime" ColumnName="RowModifiedDateTime" />
+                <ScalarProperty Name="RowModifiedSYSUserID" ColumnName="RowModifiedSYSUserID" />
+                <ScalarProperty Name="RowCreatedDateTime" ColumnName="RowCreatedDateTime" />
+                <ScalarProperty Name="RowCreatedSYSUserID" ColumnName="RowCreatedSYSUserID" />
+                <ScalarProperty Name="PasswordEncryptedText" ColumnName="PasswordEncryptedText" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="SYSUserID" ColumnName="SYSUserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Admin_SMTP_parameters">
+            <EntityTypeMapping TypeName="DemoDBModel.Admin_SMTP_parameter">
+              <MappingFragment StoreEntitySet="Admin SMTP parameters">
+                <ScalarProperty Name="RowModifiedDateTime" ColumnName="RowModifiedDateTime" />
+                <ScalarProperty Name="RowModifiedSYSUserID" ColumnName="RowModifiedSYSUserID" />
+                <ScalarProperty Name="RowCreatedDateTime" ColumnName="RowCreatedDateTime" />
+                <ScalarProperty Name="RowCreatedSYSUserID" ColumnName="RowCreatedSYSUserID" />
+                <ScalarProperty Name="host" ColumnName="host" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USER_Preferences">
+            <EntityTypeMapping TypeName="DemoDBModel.USER_Preference">
+              <MappingFragment StoreEntitySet="USER Preferences">
+                <ScalarProperty Name="NoOfUsersDisplayed" ColumnName="NoOfUsersDisplayed" />
+                <ScalarProperty Name="SYSUserID" ColumnName="SYSUserID" />
+                <ScalarProperty Name="PreferencesId" ColumnName="PreferencesId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

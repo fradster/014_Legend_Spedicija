@@ -1,0 +1,117 @@
+﻿<style type="text/css">
+	#divShoutBox {
+		position: relative;
+		width: 400px;
+		height: 300px;
+		overflow: auto;
+	}
+
+	#txtMessageText {
+		width: 400px;
+		height: 100px;
+	}
+</style>
+
+
+<div id="divShoutBox">
+	<div id="divUserMessage"></div>
+</div>
+
+<br />
+<textarea id="txtMessageText"></textarea>
+<br />
+<input type="button" id="btnPost" value="Post" />
+
+
+
+<script>
+	var _isScrolling = false;
+	var _lastScrollPos = 0;
+	var _counter = 0;
+
+	$(function () {//equivalent to Document.Ready event
+		GetMessages();
+		setInterval(Fetch, 5000);
+
+		//**************************************************
+		//on scroll event, set the variables
+		$("#divShoutBox").on("scroll",
+			function () {
+				_isScrolling = true;
+				_lastScrollPos = this.scrollHeight;
+			}
+		);
+
+		//***************************************************
+		//click on Post button event. Call SendMessage action
+		$("#btnPost").on("click",
+			function () {
+				var msgBox = $("#txtMessageText");//text box element
+				var msg1 = msgBox.val().trim();//text from the box
+				var user = $("#hidUserID");//This element should be on the main page (in which partial view is inserted)
+
+				if (msg1.length > 0) {
+					$.ajax({
+						type: "POST",
+						url: '@(Url.Action("SendMessage", "Home"))',
+						data: { userID: user.val(), message: msg1},
+						success: function (d) {
+							msgBox.val(""); GetMessages();//clear messageBox and refresh ShoutBox 
+						},
+						error: function (err) { }
+					});
+				}
+			}
+		);
+	});
+
+	//***************************************************
+	//Fetches messages for ShoutBox, within the interval set with setInterval command
+	function Fetch() {
+		if (!_isScrolling) {
+			GetMessages();
+			$("#divShoutBox").scrollTop(_lastScrollPos);
+		};
+		_isScrolling = false;
+	}
+
+	//***************************************************
+	//get all Messges for the ShouBox, call GetMessages action
+	function GetMessages() {
+		$.ajax({
+			type: "POST",
+			url: '@(Url.Action("GetMessages", "Home"))',
+			data: {},
+			success: function (d) {
+				$("#divUserMessage").empty();
+				$.each (d,
+					function (index, i) {
+						GenerateHTML(i.LoginName, i.MessageText, FormatDateString(i.LogDate));
+					}
+				);
+			},
+			error: function (err) { }
+		});
+	}
+
+	function GenerateHTML(LoginName, msgText, logDate) {
+		var divMsg = $("#divUserMessage");
+		divMsg.append("Posted by: " + LoginName + "<br/>");
+		divMsg.append("Posted on: " + logDate + "<br/>");
+		divMsg.append(msgText);
+		divMsg.append("<hr/>");
+	}
+
+
+	function FormatDateString(logDate) {
+		var d = new Date (parseInt (logDate.substr (6)));
+		var year = d.getFullYear();
+		var month = d.getMonth() + 1;
+		var day = d.getDate();
+		var hour = d.getHours();
+		var minutes = d.getMinutes();
+		var sec = d.getSeconds();
+
+		return month + "/" + day + "/" + year + " " + hour + ":" + minutes + ":" + sec;
+	}
+</script>

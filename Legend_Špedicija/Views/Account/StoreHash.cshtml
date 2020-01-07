@@ -1,0 +1,47 @@
+﻿@{
+	ViewBag.Page = "StoreHash";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="welcome-area2">
+	<h2>StoreHash</h2>
+	<p id="message"></p>
+
+	<div class="form-horizontal2">
+		<div class="container">
+			<div class="row">
+				<label class = "label-primary">userID</label>
+				<input type="text" id="idBox" />
+			</div>
+			<div class="row">
+				<label class = "label-primary">password</label>
+				<input type="text" id="passwordBox" />
+			</div>
+			<input type="button" value="submit" id="button1" />
+			<label id="message"></label>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function () {//document ready
+
+		jQuery('#button1').on('click', function () {
+			var UserId = $("#idBox").val();
+			var Password = $("#passwordBox").val();
+
+			$.ajax({
+				type: "POST",
+				url: "@(Url.Action("StoreHash", "Account"))",
+				data: {UserID: UserId, password1: Password },
+			success: function () {
+				$("#message").val("success");
+			},
+			error: function (error1) {
+				$("#message").val(error1);
+			}
+		});
+	});
+	});
+</script>
+
